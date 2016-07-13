@@ -27,5 +27,5 @@ if [ -f $RESOLV_CONF ];
 then
     # Some upstream images tend to have some random ips in the resolv.conf file
     echo "Reset resolv.conf configuration"
-    sudo sh -c "echo '' > $RESOLV_CONF"
+    sudo sh -c "echo 'nameserver 8.8.8.8' > $RESOLV_CONF"
 fi
