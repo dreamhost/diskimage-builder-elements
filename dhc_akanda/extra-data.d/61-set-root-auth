@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-1} -gt 0 ]; then
+    set -x
+fi
+set -eu
+set -o pipefail
+
+# set public key for the root user
+[ -n "$DIB_ROOT_SSH_PUBLIC_KEY" ] || exit 1
+if [ ! -f $DIB_ROOT_SSH_PUBLIC_KEY ]; then
+    echo "DIB_ROOT_SSH_PUBLIC_KEY not set, exiting"
+    exit 1
+fi
+
+cat $DIB_ROOT_SSH_PUBLIC_KEY > $TMP_HOOKS_PATH/akanda-authorized-keys
+
+# set password for the root user
+[ -n "$DIB_ROOT_PASS" ] || exit 1
+if [ ! -f $DIB_ROOT_PASS ]; then
+    echo "DIB_ROOT_PASS not set, exiting"
+    exit 1
+fi
+
+cat $DIB_ROOT_PASS > $TMP_HOOKS_PATH/akanda-root-pass

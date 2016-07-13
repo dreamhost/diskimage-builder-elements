@@ -1,0 +1,34 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-1} -gt 0 ]; then
+    set -x
+fi
+set -eu
+set -o pipefail
+
+# Note(rods):
+# Unfortunately there isn't a clean way to set the nameserver using DIB
+# This is the  way DIB works
+# * after the root.d phase, if a resolv.conf file exists in the TARGET_ROOT/etc
+#   folder, it makes a copy of the file(resolv.conf.ORIG)
+# * removes TARGET_ROOT/etc/resolv.conf
+# * copy the resolv.conf file from the system into the TARGET_ROOT/etc folder
+# * runs all the phase from pre-install to cleanup.d
+# * remove the resolv.conf file from TARGET_ROOT/etc
+# * restore the copy of the file(resolv.conf.ORIG) in TARGET_ROOT/etc
+#
+# The restore of the original file is done after the cleanup phase, at the point
+# DIB doesn't provide any other hook so the less hacky solution is to change the
+# resolv.conf file before the backup copy is made, so that when it'll be restored,
+# it'll be configured as we desire.
+
+RESOLV_CONF=$TARGET_ROOT/etc/resolv.conf
+if [ ! -f $RESOLV_CONF ]; then
+    echo "The backup of the resolv.conf made by DIB doesn't exist, so we can't set the dns nameserver"
+    exit 1
+fi
+
+# Inject the desired configuration in the resolv.conf
+sudo sh -c "cat > $RESOLV_CONF <<_EOF_
+nameserver 8.8.8.8
+_EOF_"

@@ -1,0 +1,2 @@
+dnsutils:
+  phase: post-install.d

@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-0} -gt 0 ]; then
+    set -x
+fi
+set -eu
+set -o pipefail
+
+# Cloud images may hard code the eth0 interfaces so they
+# boot with DHCP. This is OK in theory, but there is a bug
+# in cloudinit that causes this to mess things up.
+distro=$(grep '^ID=' /etc/*-release | sort | uniq | cut -d'=' -f2 | sed -e 's/"//g')
+case $distro in
+	centos|fedora)
+		rm -f /etc/sysconfig/network-scripts/ifcfg-eth*
+		;;
+	ubuntu|debian)
+		rm -f /etc/network/interfaces.d/eth*
+		if [ -f "/etc/network/interfaces" ]; then
+			printf "auto lo\niface lo inet loopback\n\n" > /etc/network/interfaces
+			if [ -d "/etc/network/interfaces.d/" ]; then
+				printf "source-directory interfaces.d\n\n" >> /etc/network/interfaces
+			fi
+		fi
+		;;
+	gentoo)
+		rm -f /etc/conf.d/net*
+		;;
+	*)
+		echo "Uknonwn distribution: $distro. Not attempting network cleanup..."
+		;;
+esac

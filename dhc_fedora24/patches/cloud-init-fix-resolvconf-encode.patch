@@ -1,0 +1,10 @@
+# backported from http://bazaar.launchpad.net/~cloud-init-dev/cloud-init/trunk/revision/1201
+=== modified file 'cloudinit/distros/rhel_util.py'
+--- cloudinit/distros/rhel_util.py    2015-01-27 19:24:22 +0000
++++ cloudinit/distros/rhel_util.py    2015-07-30 22:18:53 +0000
+@@ -86,4 +86,4 @@
+                 r_conf.add_search_domain(s)
+             except ValueError:
+                 util.logexc(LOG, "Failed at adding search domain %s", s)
+-    util.write_file(fn, r_conf, 0o644)
++    util.write_file(fn, str(r_conf), 0o644)

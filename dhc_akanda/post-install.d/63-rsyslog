@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-1} -gt 0 ]; then
+    set -x
+fi
+set -eu
+set -o pipefail
+
+if [ -f "/etc/rsyslog.d/49-remote.conf" ]; then
+    cp /etc/rsyslog.d/49-remote.conf /etc/rsyslog.d/49-remote.conf.orig
+fi
+
+cat <<EOF > /etc/rsyslog.d/49-remote.conf
+*.* @[fdca:3ba5:a17a:acda::1]:514
+EOF
