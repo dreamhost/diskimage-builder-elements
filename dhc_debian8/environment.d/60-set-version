@@ -1,1 +1,1 @@
-export DIB_RELEASE=jessie
+export DIB_RELEASE=${DIB_RELEASE:-jessie}

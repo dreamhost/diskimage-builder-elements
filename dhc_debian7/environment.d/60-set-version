@@ -1,1 +1,1 @@
-export DIB_RELEASE=wheezy
+export DIB_RELEASE=${DIB_RELEASE:-wheezy}
