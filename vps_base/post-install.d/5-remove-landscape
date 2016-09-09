@@ -1,0 +1,5 @@
+#!/bin/bash
+apt-get -y remove landscape-common landscape-client
+
+# remove landscape from here or shit gets weird
+#sed -i '/landscape/d/' /var/lib/dpkg/statoverride

@@ -1,0 +1,58 @@
+apt-get -y install linux-image-3.11.0-26-generic
+
+mkdir /etc/default/grub.d
+
+# Use grub.d to preserve upgradability
+cat > /etc/default/grub.d/50-cloudimg-settings.cfg << EOF
+GRUB_DEFAULT=0
+GRUB_HIDDEN_TIMEOUT=0
+GRUB_HIDDEN_TIMEOUT_QUIET=true
+GRUB_TIMEOUT=2
+GRUB_DISTRIBUTOR=Debian
+GRUB_CMDLINE_LINUX_DEFAULT="console=tty1 console=ttyS0"
+GRUB_CMDLINE_LINUX=""
+GRUB_RECORDFAIL_TIMEOUT=0
+GRUB_TERMINAL=console
+EOF
+
+# Set configuration for DreamCompute.
+# NOTE: for 12.04, automatic creation of default user is not
+#       supported, this part will be ignored by cloud-int.
+cat >> /etc/cloud/cloud.cfg.d/99_dreamcompute_common.cfg << EOF
+# Configuration for DreamCompute.
+apt_preserve_sources_list: true
+manage_etc_hosts: template
+datasource_list: [ ConfigDrive ]
+datasource:
+  ConfigDrive:
+      dsmode: local
+growpart:
+  mode: auto
+  devices: ['/']
+resize_rootfs: True
+
+EOF
+
+# Required due to mountall bug:
+# https://bugs.launchpad.net/cpc-dreamcompute/+bug/1342882
+mkdir /mnt/config-2
+cat >> /etc/fstab << EOF
+/dev/sr0 /mnt/config-2 auto defaults,nobootwait,comment=configdrive 0 0
+EOF
+
+cat << EOF > /etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+search nodes.dreamcompute.net
+EOF
+
+cat << EOF > /etc/sysctl.d/11-ipv6-privacy-disable.conf
+net.ipv6.conf.all.use_tempaddr = 0
+net.ipv6.conf.default.use_tempaddr = 0
+EOF
+
+cat << EOF > /etc/apt/sources.list
+deb http://mirrors.dreamcompute.com/ubuntu precise main restricted universe multiverse
+deb http://mirrors.dreamcompute.com/ubuntu precise-updates main restricted universe multiverse
+deb http://mirrors.dreamcompute.com/ubuntu precise-security main restricted universe multiverse
+EOF

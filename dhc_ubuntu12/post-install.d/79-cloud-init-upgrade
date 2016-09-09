@@ -1,0 +1,9 @@
+#!/bin/bash
+apt-get -y remove cloud-init
+dpkg --purge cloud-init
+
+apt-get -y install unzip python-setuptools
+wget https://github.com/number5/cloud-init/archive/0.7.6.zip && unzip 0.7.6.zip
+(cd cloud-init-0.7.6 && python setup.py install --init-system=upstart)
+ln -s /usr/local/bin/cloud-init /usr/bin/
+rm -rf 0.7.6.zip cloud-init-0.7.6

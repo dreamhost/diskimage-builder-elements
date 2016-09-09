@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# user has already been removed by chef vps runs, so clean up the homedir
+rm -rf /home/ubuntu

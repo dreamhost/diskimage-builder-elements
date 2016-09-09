@@ -1,0 +1,19 @@
+#!/bin/bash
+REPO_PATH="${TMP_MOUNT_PATH}/tmp/chef-repo"
+COOKBOOK_VENDOR_BASE_PATH="/tmp/chef-cookbooks"
+COOKBOOK_VENDOR_FULL_PATH="${TMP_MOUNT_PATH}${COOKBOOK_VENDOR_BASE_PATH}"
+KNIFE_SOLO_CFG="${TMP_MOUNT_PATH}/tmp/chef-solo.rb"
+
+if [ -x $VPS_CHEF_COOKBOOK_PATH ]; then
+        rsync -av $VPS_CHEF_COOKBOOK_PATH ${REPO_PATH}
+else
+        git clone $VPS_CHEF_COOKBOOK_REPO ${REPO_PATH}
+fi
+
+( cd ${REPO_PATH} &&
+  berks vendor ${COOKBOOK_VENDOR_FULL_PATH}
+)
+
+cat > $KNIFE_SOLO_CFG << EOF
+cookbook_path ["${COOKBOOK_VENDOR_BASE_PATH}" ]
+EOF
