@@ -1,5 +1,6 @@
 export VPS_CHEF_COOKBOOK_PATH=${VPS_CHEF_COOKBOOK_PATH:-""}
 export VPS_CHEF_COOKBOOK_REPO=${VPS_CHEF_COOKBOOK_REPO:-""}
+export VPS_CHEF_COOKBOOK_REPO_BRANCH=${VPS_CHEF_COOKBOOK_REPO_BRANCH:-"master"}
 export VPS_CHEF_RECIPE=${VPS_CHEF_RECIPE:-"dreamhostshared::vps-image-dhc"}
 export VPS_TYPE=${VPS_TYPE:-web}
 export CHEF_URL=${CHEF_URL:-"https://packages.chef.io/stable/ubuntu/12.04/chef_12.13.37-1_amd64.deb"}
