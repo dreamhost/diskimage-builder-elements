@@ -17,7 +17,7 @@ if [ ! -x $REPO_PATH ]; then
 fi
 
 if [ $VPS_CHEF_COOKBOOK_PATH ]; then
-        rsync -av $VPS_CHEF_COOKBOOK_PATH ${COOKBOOK_VENDOR_BASE_PATH}
+        rsync -av $VPS_CHEF_COOKBOOK_PATH ${REPO_PATH}/
 else
         git clone -b $VPS_CHEF_COOKBOOK_REPO_BRANCH $VPS_CHEF_COOKBOOK_REPO ${REPO_PATH}/dreamhostshared
 fi
