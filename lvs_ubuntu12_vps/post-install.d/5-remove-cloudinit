@@ -1,0 +1,3 @@
+#!/bin/bash
+apt-get -y remove cloud-init
+dpkg --purge cloud-init

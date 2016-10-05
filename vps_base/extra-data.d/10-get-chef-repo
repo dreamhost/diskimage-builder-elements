@@ -1,16 +1,28 @@
 #!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-0} -gt 0 ]; then
+        set -x
+fi
+
+set -eu
+set -o pipefail
+
 REPO_PATH="${TMP_MOUNT_PATH}/tmp/chef-repo"
 COOKBOOK_VENDOR_BASE_PATH="/tmp/chef-cookbooks"
 COOKBOOK_VENDOR_FULL_PATH="${TMP_MOUNT_PATH}${COOKBOOK_VENDOR_BASE_PATH}"
 KNIFE_SOLO_CFG="${TMP_MOUNT_PATH}/tmp/chef-solo.rb"
 
-if [ -x $VPS_CHEF_COOKBOOK_PATH ]; then
-        rsync -av $VPS_CHEF_COOKBOOK_PATH ${COOKBOOK_VENDOR_BASE_PATH}
-else
-        git clone -b $VPS_CHEF_COOKBOOK_REPO_BRANCH $VPS_CHEF_COOKBOOK_REPO ${REPO_PATH}
+if [ ! -x $REPO_PATH ]; then
+        mkdir -p $REPO_PATH
 fi
 
-( cd ${REPO_PATH} &&
+if [ $VPS_CHEF_COOKBOOK_PATH ]; then
+        rsync -av $VPS_CHEF_COOKBOOK_PATH ${REPO_PATH}/
+else
+        git clone -b $VPS_CHEF_COOKBOOK_REPO_BRANCH $VPS_CHEF_COOKBOOK_REPO ${REPO_PATH}/dreamhostshared
+fi
+
+( cd ${REPO_PATH}/dreamhostshared &&
   berks vendor ${COOKBOOK_VENDOR_FULL_PATH}
 )
 
