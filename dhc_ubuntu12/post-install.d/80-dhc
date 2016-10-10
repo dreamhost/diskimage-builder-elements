@@ -50,9 +50,3 @@ cat << EOF > /etc/sysctl.d/11-ipv6-privacy-disable.conf
 net.ipv6.conf.all.use_tempaddr = 0
 net.ipv6.conf.default.use_tempaddr = 0
 EOF
-
-cat << EOF > /etc/apt/sources.list
-deb http://mirrors.dreamcompute.com/ubuntu precise main restricted universe multiverse
-deb http://mirrors.dreamcompute.com/ubuntu precise-updates main restricted universe multiverse
-deb http://mirrors.dreamcompute.com/ubuntu precise-security main restricted universe multiverse
-EOF
