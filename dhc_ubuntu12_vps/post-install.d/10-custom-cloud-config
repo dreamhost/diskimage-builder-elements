@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ ${DIB_DEBUG_TRACE:-0} -gt 0 ]; then
+        set -x
+fi
+
+set -eu
+set -o pipefail
+
+cat >> /etc/cloud/cloud.cfg.d/98_dh_vps.cfg << EOF
+# blank out users so we don't try to add any (ex ubuntu)
+users:
+EOF
