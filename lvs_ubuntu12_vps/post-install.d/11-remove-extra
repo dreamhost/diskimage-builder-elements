@@ -7,7 +7,7 @@ fi
 set -eu
 set -o pipefail
 
-apt-get -y remove ufw acpid whoopsie apparmor apport apport-symptoms rpcbind ubuntu-standard update-manager-core update-notifier-common usbutils uuid-runtime whoopsie wireless-tool 
+apt-get -y remove ufw acpid whoopsie apparmor apport apport-symptoms rpcbind ubuntu-standard update-manager-core update-notifier-common usbutils uuid-runtime whoopsie wireless-tools
 
 # make sure everything from whoopsie and acpid is gone
 dpkg --purge whoopsie
