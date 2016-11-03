@@ -1,0 +1,2 @@
+export DIB_RELEASE=precise
+export DIB_DISTRIBUTION_MIRROR=http://mirrors.dreamcompute.com/ubuntu

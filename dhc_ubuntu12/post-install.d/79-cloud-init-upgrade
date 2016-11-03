@@ -4,6 +4,12 @@ dpkg --purge cloud-init
 
 apt-get -y install unzip python-setuptools
 wget https://github.com/number5/cloud-init/archive/0.7.6.zip && unzip 0.7.6.zip
-(cd cloud-init-0.7.6 && python setup.py install --init-system=upstart)
+wget -O /tmp/cloud-init.patch https://gist.githubusercontent.com/jordant/84e27fff786b246338932e2d61cc24ca/raw/307cbb3b500f6781ff39a87f20b7ee9395dc7dc9/gistfile1.txt
+(cd cloud-init-0.7.6 &&
+patch -p1 < /tmp/cloud-init.patch &&
+python setup.py install --init-system=upstart)
 ln -s /usr/local/bin/cloud-init /usr/bin/
 rm -rf 0.7.6.zip cloud-init-0.7.6
+
+wget -O /tmp/cloud-guest-utils.deb http://mirrors.kernel.org/ubuntu/pool/main/c/cloud-utils/cloud-guest-utils_0.27-0ubuntu9_all.deb
+dpkg -i /tmp/cloud-guest-utils.deb
