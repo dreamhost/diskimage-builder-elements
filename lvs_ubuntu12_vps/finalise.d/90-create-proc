@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ ! -e "/proc" ]; then
+        mkdir /proc
+fi
