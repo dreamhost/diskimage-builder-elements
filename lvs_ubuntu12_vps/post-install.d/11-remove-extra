@@ -7,7 +7,7 @@ fi
 set -eu
 set -o pipefail
 
-apt-get -y remove ufw
+apt-get -y remove ufw acpid whoopsie
 
 cat > /etc/fstab << EOF
 # This file is not used on vserver guests
