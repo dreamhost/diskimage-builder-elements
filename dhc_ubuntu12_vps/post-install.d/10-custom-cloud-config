@@ -8,6 +8,8 @@ set -eu
 set -o pipefail
 
 cat >> /etc/cloud/cloud.cfg.d/98_dh_vps.cfg << EOF
+# don't disable ssh for root
+disable_root: false
 # blank out users so we don't try to add any (ex ubuntu)
 users:
 EOF
