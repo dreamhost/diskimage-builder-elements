@@ -40,7 +40,7 @@ cat >> /etc/fstab << EOF
 /dev/sr0 /mnt/config-2 auto defaults,nobootwait,comment=configdrive 0 0
 EOF
 
-cat << EOF > /etc/resolv.conf
+cat << EOF > /etc/resolvconf/resolv.conf.d/base
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 search nodes.dreamcompute.net
