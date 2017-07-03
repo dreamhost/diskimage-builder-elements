@@ -1,0 +1,3 @@
+diskimage-builder
+python-openstackclient
+s3cmd
