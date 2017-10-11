@@ -1,1 +1,0 @@
-export DIB_DEBIAN_ALT_INIT_PACKAGE=systemd
